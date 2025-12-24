@@ -1,0 +1,157 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    background: #eef2f7;
+    color: #333;
+}
+
+/* Main container */
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #2c3e50;
+}
+
+/* Form inputs */
+input, select {
+    width: 100%;
+    padding: 10px 12px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76,175,80,0.2);
+}
+
+/* Add button */
+button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #4CAF50, #43a047);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background: #f0f3f7;
+    color: #555;
+    font-weight: 600;
+}
+
+tr:nth-child(even) {
+    background: #fafafa;
+}
+
+tr:hover {
+    background: #f1f7ff;
+}
+
+/* Action buttons */
+.btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 13px;
+    margin: 0 3px;
+    display: inline-block;
+    transition: 0.2s;
+}
+
+.btn.view {
+    background: #7f8c8d;
+}
+
+.btn.edit {
+    background: #3498db;
+}
+
+.btn.del {
+    background: #e74c3c;
+}
+
+.btn:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+}
+
+/* Status badge */
+.status {
+    padding: 5px 12px;
+    border-radius: 20px;
+    color: #392ed5;
+    font-size: 12px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.status.pending {
+    background: #f39c12;
+}
+
+.status.done {
+    background: #2ecc71;
+}
+
+.status.in_progress {
+    background: #3bb1d5;
+}
+
+/* Priority colors */
+.priority.low {
+    color: #27ae60;
+    font-weight: 600;
+}
+
+.priority.medium {
+    color: #f39c12;
+    font-weight: 600;
+}
+
+.priority.high {
+    color: #e74c3c;
+    font-weight: 600;
+}

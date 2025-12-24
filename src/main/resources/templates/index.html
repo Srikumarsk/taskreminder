@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Task Reminder</title>
+    <link rel="stylesheet" th:href="@{style.css}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Task Reminder</h2>
+
+   <form th:action="@{/addTask}" th:object="${task}" method="post">
+    <input type="hidden" th:field="*{id}">
+
+>
+
+        <input type="text" th:field="*{title}" placeholder="Task Name" required>
+
+        <input type="text" th:field="*{description}" placeholder="Description">
+
+        <input type="date" th:field="*{date}" required>
+
+        <select th:field="*{priority}">
+            <option value="LOW">Low</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="HIGH">High</option>
+        </select>
+
+        <select th:field="*{status}">
+            <option value="PENDING">Pending</option>
+            <option value="IN_PROGRESS">InProgress</option>
+            <option value="DONE">Done</option>
+        </select>
+
+        <button type="submit">Add Task</button>
+    </form>
+
+    <table>
+    <tr>
+        <th>Task</th>
+        <th>Description</th>
+        <th>Due Date</th>
+        <th>Priority</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+
+    <tr th:each="t : ${tasks}">
+        <td th:text="${t.title}"></td>
+        <td th:text="${t.description}"></td>
+        <td th:text="${t.date}"></td>
+        <td>
+            <span th:text="${t.priority}"
+                  th:classappend="'priority ' + ${t.priority.toLowerCase()}"></span>
+        </td>
+         <td>
+            <a 
+               th:text="${t.status}"
+               th:classappend="'status ' + ${t.status.toLowerCase()}"></a>
+        </td>
+       
+        <td>
+             <a th:href="@{'/view/' + ${t.id}}" class="btn view">View</a>
+            <a th:href="@{'/edit/' + ${t.id}}" class="btn edit">Edit</a>
+            <a th:href="@{'/delete/' + ${t.id}}"
+               class="btn del">Delete</a>
+        </td>
+    </tr>
+</table>
+
+</div>
+
+</body>
+</html>

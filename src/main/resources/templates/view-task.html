@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View Task</title>
+    <link rel="stylesheet" th:href="@{style.css}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Task Details</h2>
+
+    <p><b>Title:</b> <span th:text="${task.title}"></span></p>
+    <p><b>Description:</b> <span th:text="${task.description}"></span></p>
+    <p><b>Date:</b> <span th:text="${task.date}"></span></p>
+    <p><b>Status:</b> <span th:text="${task.status}"></span></p>
+    <p><b>Priority:</b> <span th:text="${task.priority}"></span></p>
+
+    <br>
+    <a href="/" class="btn edit">Back</a>
+</div>
+
+</body>
+</html>
