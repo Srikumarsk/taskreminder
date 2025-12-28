@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+ <head>
+    <title>Calendar View</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+
+    <!-- FullCalendar v5 -->
+    <link rel="stylesheet" href="https://unpkg.com/fullcalendar@5.11.5/main.min.css">
+    <script src="https://unpkg.com/fullcalendar@5.11.5/main.min.js"></script>
+</head>
+
+    <style>
+        #calendar {
+            margin-top: 15px;
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Task Calendar</h2>
+
+    <div style="text-align:right; margin-bottom:10px;">
+        <a href="/" class="btn edit">Table View</a>
+        <a href="/cards" class="btn view">Card View</a>
+    </div>
+
+    <div id="calendar"></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        height: 600,
+        events: '/api/tasks',
+        eventDataTransform: function(task) {
+            return {
+                title: task.title + ' (' + task.status + ')',
+                start: task.date,
+                url: '/view/' + task.id
+            };
+        }
+    });
+
+    calendar.render();
+});
+</script>
+<script th:src="@{/theme.js}"></script>
+
+
+</body>
+</html>
+

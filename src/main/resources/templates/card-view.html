@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Task Card View</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Task Reminder - Card View</h2>
+    <div style="text-align:right; margin-bottom:10px;">
+    <a href="/" class="btn edit">Table View</a>
+    <a href="/calendar" class="btn view">Calendar View</a>
+</div>
+
+
+    <div style="text-align:right; margin-bottom:15px;">
+        <a href="/" class="btn edit">Table View</a>
+    </div>
+
+    <div class="card-container">
+        <div class="task-card" th:each="t : ${tasks}">
+            <div class="card-header">
+                <h3 th:text="${t.title}">Task</h3>
+                <span class="task-id">#<span th:text="${t.id}"></span></span>
+            </div>
+
+            <p class="desc" th:text="${t.description}">Description</p>
+
+            <div class="card-meta">
+                <span>📅 <span th:text="${t.date}"></span></span>
+                <a th:href="@{'/toggle/' + ${t.id}}"
+                   th:text="${t.status}"
+                      th:classappend="'status ' + ${t.status.toLowerCase()}"></a>
+            </div>
+
+            <div class="card-actions">
+                <a th:href="@{'/view/' + ${t.id}}" class="btn view">View</a>
+                <a th:href="@{'/edit/' + ${t.id}}" class="btn edit">Edit</a>
+                <a th:href="@{'/delete/' + ${t.id}}"
+                   onclick="return confirm('Delete this task?')"
+                   class="btn del">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/theme.js}"></script>
+
+</body>
+</html>

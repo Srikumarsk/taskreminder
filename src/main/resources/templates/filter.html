@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Filter Tasks</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<div class="container filter-container">
+    <h2>🔍 Filter Tasks</h2>
+<form th:action="@{/filter/search}" method="get">
+    <input type="text" name="keyword" placeholder="Search title">
+
+    <select name="status">
+        <option value="">All Status</option>
+        <option value="PENDING">Pending</option>
+        <option value="IN_PROGRESS">In Progress</option>
+        <option value="DONE">Done</option>
+    </select>
+
+    <select name="priority">
+        <option value="">All Priority</option>
+        <option value="LOW">Low</option>
+        <option value="MEDIUM">Medium</option>
+        <option value="HIGH">High</option>
+    </select>
+
+    <button type="submit">Apply Filters</button>
+</form>
+<a href="/home" class="btn edit">⬅ Back to Home</a>
+
+<table class="task-table">
+    <thead>
+        <tr>
+            <th>Task</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="t : ${tasks}">
+            <td th:text="${t.title}"></td>
+            <td th:text="${t.status}"></td>
+            <td th:text="${t.priority}"></td>
+            <td th:text="${t.date}"></td>
+        </tr>
+    </tbody>
+</table>
+
+
+</div>
+</body>
+<script th:src="@{/theme.js}"></script>
+
+</html>

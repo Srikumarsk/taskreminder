@@ -10,64 +10,81 @@ body {
     color: #333;
 }
 
-/* Main container */
+/* Main card */
 .container {
     width: 90%;
-    max-width: 1000px;
-    margin: 40px auto;
+    max-width: 1100px;
+    margin: 30px auto;
     background: #fff;
-    padding: 25px 30px;
-    border-radius: 14px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    padding: 22px 28px;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.1);
 }
 
 h2 {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     color: #2c3e50;
 }
 
-/* Form inputs */
-input, select {
-    width: 100%;
-    padding: 10px 12px;
-    margin: 8px 0;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    transition: 0.3s;
+/* ---------- Add Task Form : EXACTLY 2 ROWS ---------- */
+.container form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
 }
 
-input:focus, select:focus {
+.container form input,
+.container form select {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 13px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.container form input:focus,
+.container form select:focus {
     outline: none;
     border-color: #4CAF50;
     box-shadow: 0 0 0 2px rgba(76,175,80,0.2);
 }
 
-/* Add button */
-button {
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(135deg, #4CAF50, #43a047);
+/* Button placed in 2nd row, 3rd column */
+.container form button {
+    grid-column: 3 / 4;
+    padding: 10px;
+    font-size: 14px;
     border: none;
     border-radius: 8px;
-    color: #fff;
-    font-size: 15px;
+    background: linear-gradient(135deg, #4CAF50, #43a047);
+    color: white;
     cursor: pointer;
-    margin-top: 10px;
     transition: 0.3s;
 }
 
-button:hover {
+.container form button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(0,0,0,0.15);
 }
 
-/* Table */
+/* Mobile: stack */
+@media (max-width: 750px) {
+    .container form {
+        grid-template-columns: 1fr;
+    }
+
+    .container form button {
+        grid-column: 1 / 2;
+    }
+}
+
+/* ---------- Table ---------- */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 25px;
+    margin-top: 10px;
 }
 
 th, td {
@@ -89,7 +106,7 @@ tr:hover {
     background: #f1f7ff;
 }
 
-/* Action buttons */
+/* ---------- Action Buttons ---------- */
 .btn {
     padding: 6px 12px;
     border-radius: 6px;
@@ -118,11 +135,11 @@ tr:hover {
     transform: translateY(-1px);
 }
 
-/* Status badge */
+/* ---------- Status Badges ---------- */
 .status {
     padding: 5px 12px;
     border-radius: 20px;
-    color: #392ed5;
+    color: #fff;
     font-size: 12px;
     text-decoration: none;
     font-weight: 600;
@@ -132,15 +149,15 @@ tr:hover {
     background: #f39c12;
 }
 
+.status.in_progress {
+    background: #3498db;
+}
+
 .status.done {
     background: #2ecc71;
 }
 
-.status.in_progress {
-    background: #3bb1d5;
-}
-
-/* Priority colors */
+/* ---------- Priority Colors ---------- */
 .priority.low {
     color: #27ae60;
     font-weight: 600;
@@ -154,4 +171,373 @@ tr:hover {
 .priority.high {
     color: #e74c3c;
     font-weight: 600;
+}
+/* ===== FORCE ADD TASK FORM INTO EXACT 2-ROW LAYOUT ===== */
+
+/* Hide hidden id so it doesn't take space */
+.container form input[type="hidden"] {
+    display: none !important;
+}
+
+/* Make form a 3-column grid */
+.container form {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 10px !important;
+}
+
+/* Compact inputs/selects */
+.container form input,
+.container form select {
+    margin: 0 !important;
+    padding: 8px 10px !important;
+    font-size: 13px !important;
+}
+
+/* ---- Place fields explicitly ---- */
+/* Visible inputs order:
+   1 = Task Name
+   2 = Description
+   3 = Date
+*/
+
+/* Task Name → Row 1, Col 1 */
+.container form input:not([type="hidden"]):nth-of-type(1) {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+
+/* Description → Row 1, Col 2 */
+.container form input:not([type="hidden"]):nth-of-type(2) {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+}
+
+/* Date → Row 1, Col 3 */
+.container form input:not([type="hidden"]):nth-of-type(3) {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+}
+
+/* First select = Priority → Row 2, Col 1 */
+.container form select:nth-of-type(1) {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+
+/* Second select = Status → Row 2, Col 2 */
+.container form select:nth-of-type(2) {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+}
+
+/* Button → Row 2, Col 3 */
+.container form button {
+    grid-column: 3 / 4 !important;
+    grid-row: 2 / 3 !important;
+}
+/* ---------- Card View ---------- */
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.task-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px 18px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: 0.3s;
+}
+
+.task-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h3 {
+    font-size: 16px;
+    color: #2c3e50;
+}
+
+.desc {
+    margin: 10px 0;
+    font-size: 13px;
+    color: #555;
+    min-height: 40px;
+}
+
+.card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+}
+/* ----- Stats Cards ----- */
+.stats {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.stat-card {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+.stat-card h3 {
+    font-size: 22px;
+}
+
+.stat-card p {
+    font-size: 13px;
+}
+
+.stat-card.pending { background: #f39c12; }
+.stat-card.progress { background: #3498db; }
+.stat-card.done { background: #2ecc71; }
+.task-id {
+    font-size: 12px;
+    color: #888;
+    font-weight: 600;
+}
+#calendar {
+    margin-top: 15px;
+    height: 600px;
+}
+
+/* Quote banner */
+.quote-box {
+    margin: 10px 0 15px;
+    padding: 12px 15px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-left: 5px solid #4caf50;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+}
+/* Hidden id should not affect layout */
+.container form input[type="hidden"] {
+    display: none !important;
+}
+/* Dark mode */
+body.dark {
+    background: #121212;
+    color: #e0e0e0;
+}
+
+body.dark .container {
+    background: #1e1e1e;
+}
+
+body.dark input,
+body.dark select,
+body.dark textarea {
+    background: #2a2a2a;
+    color: #fff;
+    border: 1px solid #555;
+}
+
+body.dark table {
+    color: #e0e0e0;
+}
+
+body.dark th {
+    background: #333;
+}
+
+body.dark td {
+    background: #1e1e1e;
+}
+
+body.dark .btn {
+    background: #333;
+    color: #fff;
+}
+
+body.dark .quote-box {
+    background: #263238;
+    color: #b2ebf2;
+    border-left-color: #00acc1;
+}
+.filter-page-form {
+    max-width: 400px;
+    margin: 20px auto;
+    display: grid;
+    gap: 12px;
+}
+/* Filter page container */
+.filter-container {
+    max-width: 450px;
+    margin: 40px auto;
+    padding: 25px;
+}
+
+/* Filter form layout */
+.filter-page-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Each field group */
+.filter-page-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-page-form label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+}
+
+.filter-page-form input,
+.filter-page-form select {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+/* Buttons */
+.filter-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+/* Dark mode support */
+body.dark .filter-container {
+    background: #1e1e1e;
+}
+
+body.dark .filter-page-form input,
+body.dark .filter-page-form select {
+    background: #333;
+    color: #fff;
+    border-color: #555;
+}
+
+body.dark .filter-page-form label {
+    color: #ccc;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 20px 0;
+}
+
+.pagination a {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #333;
+}
+
+.pagination a.active {
+    background: #4CAF50;
+    color: #fff;
+    border-color: #4CAF50;
+}
+
+body.dark .pagination a {
+    color: #eee;
+    border-color: #555;
+}
+
+body.dark .pagination a.active {
+    background: #22c55e;
+}
+/* Light mode background */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    min-height: 100vh;
+}
+
+/* Main container card */
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+body.dark {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #e0e0e0;
+}
+
+body.dark .container {
+    background: rgba(30, 30, 30, 0.95);
+}
+body, .container {
+    transition: background 0.4s ease, color 0.4s ease;
+}
+/* Welcome / Entrance Page */
+.welcome-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcome-card {
+    background: rgba(255,255,255,0.95);
+    padding: 50px 60px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+.welcome-card h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.welcome-card p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.welcome-btn {
+    font-size: 18px;
+    padding: 12px 30px;
+}
+
+/* Dark mode for welcome */
+body.dark .welcome-card {
+    background: rgba(30,30,30,0.95);
+}
+
+body.dark .welcome-card p {
+    color: #ccc;
 }

@@ -2,41 +2,73 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Task Reminder</title>
-    <link rel="stylesheet" th:href="@{style.css}">
+   <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
 
 <div class="container">
     <h2>Task Reminder</h2>
+   
 
-   <form th:action="@{/addTask}" th:object="${task}" method="post">
+    <div id="quoteBox" style="display:none;" class="quote-box"></div>
+    <div style="text-align:right; margin-bottom:10px;">
+    <button id="themeToggle"  type="button" class="btn edit">🌙 Dark Mode</button>
+</div>
+
+
+    <div class="stats">
+    <div class="stat-card pending">
+        <h3 th:text="${pendingCount}">0</h3>
+        <p>Pending</p>
+    </div>
+    <div class="stat-card progress">
+        <h3 th:text="${inProgressCount}">0</h3>
+        <p>In Progress</p>
+    </div>
+    <div class="stat-card done">
+        <h3 th:text="${doneCount}">0</h3>
+        <p>Done</p>
+    </div>
+</div>
+
+
+ <form th:action="@{/addTask}" th:object="${task}" method="post">
+    
     <input type="hidden" th:field="*{id}">
 
->
+    <input type="text" th:field="*{description}" placeholder="Description">
 
-        <input type="text" th:field="*{title}" placeholder="Task Name" required>
+    <input type="date" th:field="*{date}" required>
 
-        <input type="text" th:field="*{description}" placeholder="Description">
 
-        <input type="date" th:field="*{date}" required>
+    <input type="text" th:field="*{title}" placeholder="Task Name" required>
 
-        <select th:field="*{priority}">
-            <option value="LOW">Low</option>
-            <option value="MEDIUM">Medium</option>
-            <option value="HIGH">High</option>
-        </select>
+    <select th:field="*{priority}" placeholder="Priority" required>
+        <option value="LOW">Low</option>
+        <option value="MEDIUM">Medium</option>
+        <option value="HIGH">High</option>
+    </select>
 
-        <select th:field="*{status}">
-            <option value="PENDING">Pending</option>
-            <option value="IN_PROGRESS">InProgress</option>
-            <option value="DONE">Done</option>
-        </select>
+    <select th:field="*{status}" placeholder="Status" required>
+        <option value="PENDING">Pending</option>
+        <option value="IN_PROGRESS">In Progress</option>
+        <option value="DONE">Done</option>
 
-        <button type="submit">Add Task</button>
-    </form>
+    </select>
+
+    <button type="submit">Add Task</button>
+</form>
+
+   
+    <a href="/cards" class="btn edit">Card View</a>
+
+<a href="/calendar" class="btn edit">Calendar View</a>
+ 
+    <a href="/filter" class="btn edit">🔍 Filter</a>
 
     <table>
     <tr>
+        <th>ID</th>
         <th>Task</th>
         <th>Description</th>
         <th>Due Date</th>
@@ -46,6 +78,7 @@
     </tr>
 
     <tr th:each="t : ${tasks}">
+        <td th:text="${t.id}"></td>
         <td th:text="${t.title}"></td>
         <td th:text="${t.description}"></td>
         <td th:text="${t.date}"></td>
@@ -53,8 +86,9 @@
             <span th:text="${t.priority}"
                   th:classappend="'priority ' + ${t.priority.toLowerCase()}"></span>
         </td>
-         <td>
-            <a 
+         <td> 
+             <a
+                th:href="@{'/toggle/' + ${t.id}}" 
                th:text="${t.status}"
                th:classappend="'status ' + ${t.status.toLowerCase()}"></a>
         </td>
@@ -66,9 +100,74 @@
                class="btn del">Delete</a>
         </td>
     </tr>
+
 </table>
+<div class="pagination" th:if="${totalPages > 1}">
+
+    <a th:if="${currentPage > 0}"
+       th:href="@{/home(page=${currentPage-1}, size=${size})}">
+        « Prev
+    </a>
+
+    <span th:each="i : ${#numbers.sequence(0, totalPages-1)}">
+        <a th:href="@{/home(page=${i}, size=${size})}"
+           th:text="${i+1}"
+           th:classappend="${i == currentPage} ? 'active' : ''">
+        </a>
+    </span>
+
+    <a th:if="${currentPage < totalPages-1}"
+       th:href="@{/home(page=${currentPage+1}, size=${size})}">
+        Next »
+    </a>
 
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let pending = 0, progress = 0, done = 0;
+
+    document.querySelectorAll("tbody tr").forEach(row => {
+        const status = row.querySelector(".status-btn").textContent.trim();
+
+        if (status === "PENDING") pending++;
+        else if (status === "IN_PROGRESS") progress++;
+        else if (status === "DONE") done++;
+    });
+
+    document.getElementById("pendingCount").textContent = pending;
+    document.getElementById("progressCount").textContent = progress;
+    document.getElementById("doneCount").textContent = done;
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("done") === "true") {
+        const quotes = [
+            "🎉 Great job! You completed a task!",
+            "🔥 Well done! Keep moving forward!",
+            "✅ Task completed! You're doing awesome!",
+            "🚀 Another step closer to success!",
+            "🌟 Proud of you! Keep it up!"
+        ];
+
+        const box = document.getElementById("quoteBox");
+        const q = quotes[Math.floor(Math.random() * quotes.length)];
+
+        box.textContent = q;
+        box.style.display = "block";
+
+        // remove ?done=true from URL
+        window.history.replaceState({}, document.title, "/");
+    }
+});
+</script>
+
+<script th:src="@{/theme.js}"></script>
+
+
 
 </body>
 </html>

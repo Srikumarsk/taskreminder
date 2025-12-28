@@ -5,7 +5,6 @@ import java.time.LocalDate;
 
 @Entity
 public class Task {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
