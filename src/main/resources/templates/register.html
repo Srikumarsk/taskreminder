@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register</title>
+    <style>
+        body { font-family: Arial; background: #f4f6f8; }
+        .box {
+            width: 380px;
+            margin: 80px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        button { background: #4CAF50; color: white; border: none; }
+        .error { color: red; margin-top: 10px; }
+        .success { color: green; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Register</h2>
+
+    <!-- SEND OTP FORM -->
+    <form th:action="@{/send-otp}" th:object="${user}" method="post"
+          th:if="${!showOtp}">
+        <input th:field="*{name}" placeholder="Name" required>
+        <input th:field="*{email}" placeholder="Email" required>
+        <input th:field="*{password}" placeholder="Password" required>
+
+        <button type="submit">Send OTP</button>
+    </form>
+
+    <!-- VERIFY OTP FORM -->
+    <form th:action="@{/verify-otp}" method="post" th:if="${showOtp}">
+        <input type="email" name="email" th:value="${email}" readonly>
+        <input type="text" name="otp" placeholder="Enter OTP" required>
+
+        <button type="submit">Verify & Register</button>
+    </form>
+
+    <p class="success" th:text="${message}"></p>
+    <p class="error" th:text="${error}"></p>
+</div>
+
+</body>
+</html>

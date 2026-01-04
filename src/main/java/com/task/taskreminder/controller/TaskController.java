@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +19,12 @@ public class TaskController {
 
     private final TaskRepository repository;
 
+
     public TaskController(TaskRepository repository) {
         this.repository = repository;
     }
+  
+
 
 @GetMapping("/home")
 public String home(
@@ -30,6 +34,7 @@ public String home(
         @RequestParam(required = false) String status,
         @RequestParam(required = false) String priority,
         Model model) {
+            
 
     Pageable pageable = PageRequest.of(page, size, Sort.by("date").ascending());
     Page<Task> taskPage = repository.findAll(pageable);
@@ -71,6 +76,7 @@ public String home(
     model.addAttribute("size", size);
 
     return "index";
+    
 }
 @GetMapping("/filter/search")
 public String filterTasks(
@@ -102,14 +108,12 @@ public String filterTasks(
 }
 
 
+
 @GetMapping("/filter")
 public String filterPage() {
     return "filter";
 }
-@GetMapping("/")
-public String root() {
-    return "redirect:/home";
-}
+
 @GetMapping("/welcome")
 public String welcome() {
     return "welcome";
@@ -124,15 +128,13 @@ public String cardView(Model model) {
         repository.save(task);
         return "redirect:/home";
     }
-    @GetMapping("/edit/{id}")
-public String editTask(@PathVariable Long id, Model model) {
-    Task task = repository.findById(id).orElse(null);
-
+@GetMapping("/edit/{id}")
+public String showEditPage(@PathVariable Long id, Model model) {
+    Task task = repository.findById(id).orElseThrow();
     model.addAttribute("task", task);
-    model.addAttribute("tasks", repository.findAll());
-
-    return "index";
+    return "edit";   // edit.html
 }
+
 
     // Delete Task
     @GetMapping("/delete/{id}")
@@ -188,6 +190,13 @@ public List<Task> getTasks() {
 public String calendarView() {
     return "calendar";
 }
+@PostMapping("/updateTask")
+public String updateTask(@ModelAttribute Task task) {
+    repository.save(task);
+    return "redirect:/home";
+}
+
+
 
 
 

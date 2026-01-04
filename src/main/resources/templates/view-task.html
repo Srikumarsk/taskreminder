@@ -6,18 +6,55 @@
 </head>
 <body>
 
-<div class="container">
-    <h2>Task Details</h2>
+<div class="view-container">
 
-    <p><b>Title:</b> <span th:text="${task.title}"></span></p>
-    <p><b>Description:</b> <span th:text="${task.description}"></span></p>
-    <p><b>Date:</b> <span th:text="${task.date}"></span></p>
-    <p><b>Status:</b> <span th:text="${task.status}"></span></p>
-    <p><b>Priority:</b> <span th:text="${task.priority}"></span></p>
+    <div class="view-header">
+        <h2 th:text="${task.title}">Task Title</h2>
+        <span class="view-badge"
+              th:classappend="
+                ${task.status} == 'PENDING' ? ' badge-pending' :
+                (${task.status} == 'IN_PROGRESS' ? ' badge-progress' : ' badge-done')"
+              th:text="${task.status}">
+        </span>
+    </div>
 
-    <br>
-    <a href="/" class="btn edit">Back</a>
+    <div class="view-details">
+        <div class="view-item">
+            <span>Description</span>
+            <strong th:text="${task.description}">Description</strong>
+        </div>
+
+        <div class="view-item">
+            <span>Priority</span>
+            <strong th:text="${task.priority}">Priority</strong>
+        </div>
+
+        <div class="view-item">
+            <span>Status</span>
+            <strong th:text="${task.status}">Status</strong>
+        </div>
+
+        <div class="view-item">
+            <span>Due Date</span>
+            <strong th:text="${task.date}">Date</strong>
+        </div>
+
+        <div class="view-item view-desc">
+            <span>Task ID</span>
+            <strong th:text="${task.id}">1</strong>
+        </div>
+    </div>
+
+    <div class="view-actions">
+        <a th:href="@{/edit/{id}(id=${task.id})}" class="btn btn-edit"> Edit</a>
+        <a href="/home" class="btn btn-back"> Back</a>
+    </div>
+
 </div>
+
+
+
+
 <script th:src="@{/theme.js}"></script>
 
 

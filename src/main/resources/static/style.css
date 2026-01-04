@@ -541,3 +541,204 @@ body.dark .welcome-card {
 body.dark .welcome-card p {
     color: #ccc;
 }
+/* ===== Edit Page Styles ===== */
+
+.edit-container {
+    max-width: 500px;
+    margin: 60px auto;
+    padding: 30px 35px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.edit-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.edit-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.edit-form input,
+.edit-form select {
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.edit-form input:focus,
+.edit-form select:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76,175,80,0.2);
+}
+
+.edit-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.edit-actions .btn {
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+/* Buttons */
+.btn-update {
+    background: #4CAF50;
+    color: #fff;
+}
+
+.btn-update:hover {
+    background: #43a047;
+}
+
+.btn-cancel {
+    background: #e5e7eb;
+    color: #333;
+}
+
+.btn-cancel:hover {
+    background: #d1d5db;
+}
+
+/* 🌗 Dark mode support */
+body.dark .edit-container {
+    background: #1f2933;
+    color: #e5e7eb;
+}
+
+body.dark .edit-form input,
+body.dark .edit-form select {
+    background: #111827;
+    color: #e5e7eb;
+    border: 1px solid #374151;
+}
+
+body.dark .btn-cancel {
+    background: #374151;
+    color: #e5e7eb;
+}
+/* ===== View Task Page Styles ===== */
+
+.view-container {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 30px 35px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+}
+
+.view-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.view-header h2 {
+    margin: 0;
+    color: #333;
+}
+
+.view-badge {
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.badge-pending { background: #f59e0b; }
+.badge-progress { background: #3b82f6; }
+.badge-done { background: #22c55e; }
+
+.view-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.view-item {
+    background: #f4f6f8;
+    padding: 14px 16px;
+    border-radius: 10px;
+}
+
+.view-item span {
+    display: block;
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 4px;
+}
+
+.view-item strong {
+    font-size: 15px;
+    color: #333;
+}
+
+.view-desc {
+    grid-column: span 2;
+}
+
+.view-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.view-actions .btn {
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-edit {
+    background: #4CAF50;
+    color: #fff;
+}
+
+.btn-edit:hover { background: #43a047; }
+
+.btn-back {
+    background: #e5e7eb;
+    color: #333;
+}
+
+.btn-back:hover { background: #d1d5db; }
+
+/* 🌗 Dark mode support */
+body.dark .view-container {
+    background: #1f2933;
+    color: #e5e7eb;
+}
+
+body.dark .view-item {
+    background: #111827;
+}
+
+body.dark .view-item strong {
+    color: #e5e7eb;
+}
+
+body.dark .btn-back {
+    background: #374151;
+    color: #e5e7eb;
+}
