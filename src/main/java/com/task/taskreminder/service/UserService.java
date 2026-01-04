@@ -2,6 +2,8 @@ package com.task.taskreminder.service;
 
 import com.task.taskreminder.model.User;
 import com.task.taskreminder.repository.UserRepository;
+
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,6 +72,11 @@ public class UserService {
 public String usersPage(Model model) {
     model.addAttribute("users", userRepository.findAll());
     return "users";
+}
+
+public @Nullable Object getAllUsers() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getAllUsers'");
 }
 
 }

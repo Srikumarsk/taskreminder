@@ -1,8 +1,12 @@
 package com.task.taskreminder.controller;
 
 import com.task.taskreminder.model.User;
+import com.task.taskreminder.repository.UserRepository;
 import com.task.taskreminder.service.UserService;
 import jakarta.servlet.http.HttpSession;
+
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +15,31 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final UserService userService;
-   
-    
-    public AuthController(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserRepository userRepository;
+
+    public AuthController(UserService userService,
+                      UserRepository userRepository) {
+    this.userService = userService;
+    this.userRepository = userRepository;
+}
+@GetMapping("/users")
+public String usersPage(Model model) {
+
+    List<User> users = userRepository.findAll();
+
+    System.out.println("USERS FOUND = " + users.size());
+
+    model.addAttribute("users", users);
+
+    return "users";
+}
+
+   @GetMapping("/")
+public String root() {
+    return "redirect:/login";
+}
+
+
 
     // REGISTER PAGE
     @GetMapping("/register")
@@ -24,19 +48,13 @@ public class AuthController {
         model.addAttribute("showOtp", false);
         return "register";
     }
-    @GetMapping("/")
-public String rootRedirect() {
-    return "redirect:/login";
-}
-
+    
     @GetMapping("/login")
 public String loginPage() {
     return "login";
 }
- @GetMapping("/users")
-public String userspage() {
-    return "users";
-}
+
+
 @PostMapping("/login")
 public String login(@RequestParam String email,
                     @RequestParam String password,
