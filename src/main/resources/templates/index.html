@@ -77,8 +77,9 @@
         <th>Actions</th>
     </tr>
 
-    <tr th:each="t : ${tasks}">
-        <td th:text="${t.id}"></td>
+    <tr th:each="t, stat : ${tasks}">
+        
+         <td th:text="${stat.count}"></td>
         <td th:text="${t.title}"></td>
         <td th:text="${t.description}"></td>
         <td th:text="${t.date}"></td>
@@ -102,6 +103,7 @@
     </tr>
 
 </table>
+<a href="/logout">Logout</a>
 <div class="pagination" th:if="${totalPages > 1}">
 
     <a th:if="${currentPage > 0}"

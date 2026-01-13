@@ -24,6 +24,7 @@ public class AuthController {
 }
 @GetMapping("/users")
 public String usersPage(Model model) {
+    
 
     List<User> users = userRepository.findAll();
 
@@ -34,11 +35,14 @@ public String usersPage(Model model) {
     return "users";
 }
 
-   @GetMapping("/")
-public String root() {
-    return "redirect:/login";
-}
-
+  // ROOT → LOGIN
+    @GetMapping("/")
+    public String root(HttpSession session) {
+        if (session.getAttribute("loggedUser") != null) {
+            return "redirect:/home";
+        }
+        return "redirect:/login";
+    }
 
 
     // REGISTER PAGE
@@ -49,11 +53,20 @@ public String root() {
         return "register";
     }
     
+  // LOGIN PAGE
     @GetMapping("/login")
-public String loginPage() {
-    return "login";
+    public String loginPage(HttpSession session) {
+        if (session.getAttribute("loggedUser") != null) {
+            return "redirect:/home";
+        }
+        return "login";
+    }
+    @GetMapping("/logout")
+public String logout(HttpSession session) {
+    session.invalidate();
+    return "redirect:/login";
 }
-
+    
 
 @PostMapping("/login")
 public String login(@RequestParam String email,
@@ -67,9 +80,10 @@ public String login(@RequestParam String email,
         model.addAttribute("error", "Invalid credentials or not verified");
         return "login";
     }
-
+    if (user!=null) 
     session.setAttribute("loggedUser", user);
     return "redirect:/home";
+
 }
 
 
@@ -114,6 +128,7 @@ public String deleteUser(@PathVariable Integer id) {
     userService.deleteUser(id);
     return "redirect:/users";
 }
+
 
 
 

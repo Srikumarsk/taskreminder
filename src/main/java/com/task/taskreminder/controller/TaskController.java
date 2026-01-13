@@ -2,6 +2,10 @@ package com.task.taskreminder.controller;
 
 import com.task.taskreminder.model.Task;
 import com.task.taskreminder.repository.TaskRepository;
+import com.task.taskreminder.model.User;
+
+
+import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
 
@@ -33,13 +37,31 @@ public String home(
         @RequestParam(required = false) String keyword,
         @RequestParam(required = false) String status,
         @RequestParam(required = false) String priority,
-        Model model) {
-            
+        Model model ,HttpSession session) {
+            User loggedUser = (User) session.getAttribute("loggedUser");
 
-    Pageable pageable = PageRequest.of(page, size, Sort.by("date").ascending());
-    Page<Task> taskPage = repository.findAll(pageable);
+    
+  Sort prioritySort = Sort.by(
+        Sort.Order.asc(
+                "priority"
+        )
+);
+
+Pageable pageable = PageRequest.of(page, size, prioritySort);
+
+   Page<Task> taskPage = repository.findByUser(loggedUser, pageable);
 
     List<Task> tasks = taskPage.getContent();
+    tasks = tasks.stream()
+        .sorted((t1, t2) -> {
+            List<String> order = List.of("HIGH", "MEDIUM", "LOW");
+            return Integer.compare(
+                    order.indexOf(t1.getPriority()),
+                    order.indexOf(t2.getPriority())
+            );
+        })
+        .toList();
+
 
     // Apply filters on current page (simple approach)
     if (keyword != null && !keyword.isEmpty()) {
@@ -48,7 +70,7 @@ public String home(
                 .toList();
     }
     if (status != null && !status.isEmpty()) {
-        tasks = tasks.stream()
+        tasks = tasks.stream()  
                 .filter(t -> t.getStatus().equalsIgnoreCase(status))
                 .toList();
     }
@@ -83,20 +105,25 @@ public String filterTasks(
         @RequestParam(required = false) String keyword,
         @RequestParam(required = false) String status,
         @RequestParam(required = false) String priority,
-        Model model) {
+        Model model,
+        HttpSession session) {
 
-    List<Task> tasks = repository.findAll();
+    User loggedUser = (User) session.getAttribute("loggedUser");
+
+    List<Task> tasks = repository.findByUser(loggedUser);
 
     if (keyword != null && !keyword.isEmpty()) {
         tasks = tasks.stream()
                 .filter(t -> t.getTitle().toLowerCase().contains(keyword.toLowerCase()))
                 .toList();
     }
+
     if (status != null && !status.isEmpty()) {
         tasks = tasks.stream()
                 .filter(t -> t.getStatus().equalsIgnoreCase(status))
                 .toList();
     }
+
     if (priority != null && !priority.isEmpty()) {
         tasks = tasks.stream()
                 .filter(t -> t.getPriority().equalsIgnoreCase(priority))
@@ -109,25 +136,56 @@ public String filterTasks(
 
 
 
+
 @GetMapping("/filter")
-public String filterPage() {
+public String filterPage(HttpSession session) {
+
+    if (session.getAttribute("loggedUser") == null) {
+        return "redirect:/login";
+    }
+
     return "filter";
 }
+
 
 @GetMapping("/welcome")
 public String welcome() {
     return "welcome";
 }
 @GetMapping("/cards")
-public String cardView(Model model) {
-    model.addAttribute("tasks", repository.findAll());
+public String cardView(Model model, HttpSession session) {
+
+    User loggedUser = (User) session.getAttribute("loggedUser");
+
+    List<Task> tasks = repository.findByUser(loggedUser);
+
+    //  Priority order: HIGH → MEDIUM → LOW
+    tasks = tasks.stream()
+            .sorted((t1, t2) -> {
+                List<String> order = List.of("HIGH", "MEDIUM", "LOW");
+                return Integer.compare(
+                        order.indexOf(t1.getPriority()),
+                        order.indexOf(t2.getPriority())
+                );
+            })
+            .toList();
+
+    model.addAttribute("tasks", tasks);
     return "card-view";
 }
+
     @PostMapping("/addTask")
-    public String addTask(@ModelAttribute Task task) {
-        repository.save(task);
-        return "redirect:/home";
-    }
+public String addTask(@ModelAttribute Task task, HttpSession session) {
+
+    User loggedUser = (User) session.getAttribute("loggedUser");
+
+    task.setUser(loggedUser);   // 🔥 STEP 3 (IMPORTANT)
+
+    repository.save(task);
+
+    return "redirect:/home";
+}
+
 @GetMapping("/edit/{id}")
 public String showEditPage(@PathVariable Long id, Model model) {
     Task task = repository.findById(id).orElseThrow();
@@ -182,20 +240,27 @@ public String search(@RequestParam("q") String q, Model model) {
 }
 @GetMapping("/api/tasks")
 @ResponseBody
-public List<Task> getTasks() {
-    return repository.findAll();
+public List<Task> getTasks(HttpSession session) {
+
+    User loggedUser = (User) session.getAttribute("loggedUser");
+
+    return repository.findByUser(loggedUser);
 }
+
 
 @GetMapping("/calendar")
 public String calendarView() {
     return "calendar";
 }
 @PostMapping("/updateTask")
-public String updateTask(@ModelAttribute Task task) {
+public String updateTask(@ModelAttribute Task task, HttpSession session) {
+
+    User loggedUser = (User) session.getAttribute("loggedUser");
+    task.setUser(loggedUser);   //    keep ownership
+
     repository.save(task);
     return "redirect:/home";
 }
-
 
 
 
