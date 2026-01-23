@@ -28,3 +28,6 @@ This application can be used by students, professionals, or anyone who wants to 
 
 # Conclusion
 The Task Reminder Application demonstrates how a simple yet effective task management system can be developed using modern web technologies. It helps users stay organized and also provides a practical understanding of building full-stack applications using Java and Spring Boot.
+
+## License
+This project is licensed under the MIT License.
