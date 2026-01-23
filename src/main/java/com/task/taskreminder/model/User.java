@@ -8,7 +8,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -20,9 +20,16 @@ public class User {
     private String otp;
 
     private boolean verified = false;
+    private String profileImage;
+
 
     // getters & setters
-    public Integer getId() { return id; }
+   public void setId(Long id) {
+    this.id = id;
+}
+public Long getId() {
+    return id;
+}
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -38,4 +45,13 @@ public class User {
 
     public boolean isVerified() { return verified; }
     public void setVerified(boolean verified) { this.verified = verified; }
+    public String getProfileImage() {
+    return profileImage;
+}
+
+public void setProfileImage(String profileImage) {
+    this.profileImage = profileImage;
+}
+
+
 }

@@ -22,7 +22,10 @@
         <div class="task-card" th:each="t : ${tasks}">
             <div class="card-header">
                 <h3 th:text="${t.title}">Task</h3>
-                <span class="task-id">#<span th:text="${t.id}"></span></span>
+               <span class="task-id">
+    #<span th:text="${t.serialNo}">1</span>
+</span>
+
             </div>
 
             <p class="desc" th:text="${t.description}">Description</p>

@@ -37,6 +37,31 @@
             margin-top: 15px;
             text-align: center;
         }
+        /* Password eye button */
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    width: 90%;
+    padding-right: 40px;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 16px;
+    color: #666;
+    user-select: none;
+}
+
+.toggle-password:hover {
+    color: #4CAF50;
+}
+
     </style>
 </head>
 <body>
@@ -47,7 +72,11 @@
 
     <form th:action="@{/login}" method="post">
         <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Password" required>
+        <div class="password-wrapper">
+    <input type="password" id="password" name="password" placeholder="Password" required>
+    <span class="toggle-password" onclick="togglePassword()">👁️</span>
+</div>
+
 
         <button type="submit">Login</button>
     </form>
@@ -58,6 +87,18 @@
         <a th:href="@{/register}">Create new account</a>
     </div>
 </div>
+<script>
+function togglePassword() {
+    const passwordInput = document.getElementById("password");
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+    } else {
+        passwordInput.type = "password";
+    }
+}
+</script>
+
 
 </body>
 </html>

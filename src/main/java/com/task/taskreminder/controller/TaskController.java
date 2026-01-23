@@ -1,7 +1,20 @@
 package com.task.taskreminder.controller;
+import java.io.IOException;
+
+
+import jakarta.servlet.http.HttpServletResponse;
+
+
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+
+
+
 
 import com.task.taskreminder.model.Task;
 import com.task.taskreminder.repository.TaskRepository;
+import com.task.taskreminder.service.EmailService;
 import com.task.taskreminder.model.User;
 
 
@@ -9,6 +22,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +31,7 @@ import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 
 @Controller
 public class TaskController {
@@ -27,7 +42,10 @@ public class TaskController {
     public TaskController(TaskRepository repository) {
         this.repository = repository;
     }
-  
+  @Autowired
+private EmailService emailService;
+  private User user;
+
 
 
 @GetMapping("/home")
@@ -88,6 +106,11 @@ Pageable pageable = PageRequest.of(page, size, prioritySort);
     model.addAttribute("pendingCount", pendingCount);
     model.addAttribute("inProgressCount", inProgressCount);
     model.addAttribute("doneCount", doneCount);
+    int serialNo = 1;
+for (Task t : tasks) {
+    t.setSerialNo(serialNo++);
+}
+
 
     model.addAttribute("tasks", tasks);
     model.addAttribute("task", new Task());
@@ -169,6 +192,11 @@ public String cardView(Model model, HttpSession session) {
                 );
             })
             .toList();
+            
+    int serialNo = 1;
+    for (Task t : tasks) {
+        t.setSerialNo(serialNo++);
+    }
 
     model.addAttribute("tasks", tasks);
     return "card-view";
@@ -182,6 +210,7 @@ public String addTask(@ModelAttribute Task task, HttpSession session) {
     task.setUser(loggedUser);   // 🔥 STEP 3 (IMPORTANT)
 
     repository.save(task);
+     emailService.sendTaskCreatedMail(loggedUser.getEmail(), task);
 
     return "redirect:/home";
 }
@@ -223,9 +252,21 @@ public String toggleStatus(@PathVariable Long id) {
 
 
     @GetMapping("/view/{id}")
-public String viewTask(@PathVariable Long id, Model model) {
-    Task task = repository.findById(id).orElse(null);
-    model.addAttribute("task", task);
+public String viewTask(@PathVariable Long id, Model model, HttpSession session) {
+    User loggedUser = (User) session.getAttribute("loggedUser");
+
+List<Task> tasks = repository.findByUser(loggedUser);
+
+int serial = 1;
+for (Task t : tasks) {
+    if (t.getId().equals(id)) {
+        t.setSerialNo(serial);
+        model.addAttribute("task", t);
+        break;
+    }
+    serial++;
+}
+
     return "view-task";
 }
 @GetMapping("/search")
@@ -261,6 +302,62 @@ public String updateTask(@ModelAttribute Task task, HttpSession session) {
     repository.save(task);
     return "redirect:/home";
 }
+@GetMapping("/tasks/download")
+public void downloadTasksExcel(
+        HttpSession session,
+        HttpServletResponse response) throws IOException {
+
+    User loggedUser = (User) session.getAttribute("loggedUser");
+    if (loggedUser == null) {
+        response.sendRedirect("/login");
+        return;
+    }
+
+    List<Task> tasks = repository.findByUser(loggedUser);
+
+    Workbook workbook = new XSSFWorkbook();
+    Sheet sheet = workbook.createSheet("My Tasks");
+
+    // Header row
+    Row header = sheet.createRow(0);
+    String[] columns = {"S.No", "Title", "Description", "Date", "Priority", "Status"};
+
+    for (int i = 0; i < columns.length; i++) {
+        Cell cell = header.createCell(i);
+        cell.setCellValue(columns[i]);
+    }
+
+    // Data rows
+    int rowNum = 1;
+    int serial = 1;
+
+    for (Task task : tasks) {
+        Row row = sheet.createRow(rowNum++);
+
+        row.createCell(0).setCellValue(serial++);
+        row.createCell(1).setCellValue(task.getTitle());
+        row.createCell(2).setCellValue(task.getDescription());
+        row.createCell(3).setCellValue(task.getDate().toString());
+        row.createCell(4).setCellValue(task.getPriority());
+        row.createCell(5).setCellValue(task.getStatus());
+    }
+
+    // Auto-size columns
+    for (int i = 0; i < columns.length; i++) {
+        sheet.autoSizeColumn(i);
+    }
+
+    // Response settings
+    response.setContentType(
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    response.setHeader(
+        "Content-Disposition",
+        "attachment; filename=My_Tasks.xlsx");
+
+    workbook.write(response.getOutputStream());
+    workbook.close();
+}
+
 
 
 

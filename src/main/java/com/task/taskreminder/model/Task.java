@@ -17,6 +17,17 @@ public class Task {
     @ManyToOne
 @JoinColumn(name = "user_id")
 private User user;
+@Transient
+private int serialNo;
+
+public int getSerialNo() {
+    return serialNo;
+}
+
+public void setSerialNo(int serialNo) {
+    this.serialNo = serialNo;
+}
+
 
 
     // getters & setters

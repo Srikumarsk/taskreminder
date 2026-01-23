@@ -124,7 +124,7 @@ public String login(@RequestParam String email,
         return "register";
     }
     @GetMapping("/delete-user/{id}")
-public String deleteUser(@PathVariable Integer id) {
+public String deleteUser(@PathVariable Long id) {
     userService.deleteUser(id);
     return "redirect:/users";
 }

@@ -65,7 +65,7 @@ public class UserService {
         }
         return null;
     }
-    public void deleteUser(Integer id) {
+    public void deleteUser(Long id) {
     userRepository.deleteById(id);
 }
 @GetMapping("/users")

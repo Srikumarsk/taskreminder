@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Profile</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<div class="profile-wrapper">
+    <div class="profile-card">
+
+        <!-- Profile Header -->
+        <div class="profile-header">
+
+            <!-- Profile Image FIRST -->
+            <img th:if="${user.profileImage != null}"
+     th:src="@{'/uploads/' + ${user.profileImage}}"
+     class="profile-img"
+     alt="Profile Photo">
+
+<img th:if="${user.profileImage == null}"
+     src="/images/default-user.png"
+     class="profile-img"
+     alt="Default Avatar">
+
+            <!-- User Name -->
+            <h2 th:text="${user.name}">User Name</h2>
+
+            <!-- Subtitle -->
+            <p>Manage your account details</p>
+
+        </div>
+
+        <!-- Upload Photo -->
+        <form th:action="@{/profile/upload}" 
+              method="post" 
+              enctype="multipart/form-data">
+
+            <input type="file" name="photo" accept="image/*" required>
+
+            <button type="submit" class="btn primary">
+                Update Photo
+            </button>
+        </form>
+
+        <!-- Profile Update Form -->
+        <form class="profile-form"
+              th:action="@{/profile/update}"
+              method="post"
+              th:object="${user}">
+
+            <div class="profile-group">
+                <label>Name</label>
+                <input type="text" th:field="*{name}" required>
+            </div>
+
+            <div class="profile-group">
+                <label>Email</label>
+                <input type="email" th:field="*{email}" readonly>
+            </div>
+
+            <div class="profile-actions">
+                <button type="submit" class="btn-save">Save Changes</button>
+                <a href="/home" class="btn-cancel">Cancel</a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>

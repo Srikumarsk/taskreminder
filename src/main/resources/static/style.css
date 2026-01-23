@@ -742,3 +742,382 @@ body.dark .btn-back {
     background: #374151;
     color: #e5e7eb;
 }
+
+/* =====================
+   PROFILE PAGE (IMPROVED)
+===================== */
+
+.profile-wrapper {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-card {
+    width: 100%;
+    max-width: 460px;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 28px 30px;
+    box-shadow: 0 14px 35px rgba(0,0,0,0.15);
+}
+
+/* Header */
+.profile-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.profile-avatar {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    background: #4CAF50;
+    color: #fff;
+    font-size: 28px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-header h2 {
+    font-size: 20px;
+    margin-bottom: 4px;
+    color: #2c3e50;
+}
+
+.profile-header p {
+    font-size: 13px;
+    color: #777;
+}
+
+/* Form */
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.profile-group label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.profile-group input {
+    width: 100%;
+    padding: 11px 14px;
+    font-size: 14px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    transition: 0.2s;
+}
+
+.profile-group input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 3px rgba(76,175,80,0.15);
+}
+
+.profile-group input[readonly] {
+    background: #f3f4f6;
+    cursor: not-allowed;
+}
+
+/* Actions */
+.profile-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.profile-actions button,
+.profile-actions a {
+    flex: 1;
+    padding: 11px 0;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+
+/* Buttons */
+.btn-save {
+    background: #4CAF50;
+    color: #fff;
+}
+
+.btn-save:hover {
+    background: #43a047;
+}
+
+.btn-cancel {
+    background: #e5e7eb;
+    color: #333;
+}
+
+.btn-cancel:hover {
+    background: #d1d5db;
+}
+
+/* =====================
+   DARK MODE
+===================== */
+
+body.dark .profile-card {
+    background: #1f2933;
+    color: #e5e7eb;
+}
+
+body.dark .profile-header h2 {
+    color: #e5e7eb;
+}
+
+body.dark .profile-group label {
+    color: #cbd5e1;
+}
+
+body.dark .profile-group input {
+    background: #111827;
+    color: #e5e7eb;
+    border-color: #374151;
+}
+
+body.dark .profile-group input[readonly] {
+    background: #1e293b;
+}
+
+body.dark .btn-cancel {
+    background: #374151;
+    color: #e5e7eb;
+}
+
+/* =====================
+   HOME PAGE TOP BAR
+===================== */
+
+.home-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50mpx;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    padding: 0 28px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    z-index: 1000;
+}
+
+/* Center welcome text */
+.home-topbar .welcome {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* Right actions */
+.home-topbar .actions {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+}
+
+
+.home-topbar .actions a {
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    background: #e5e7eb;
+    color: #333;
+}
+
+.home-topbar .actions a:hover {
+    background: #d1d5db;
+}
+
+/* Push home content below top bar */
+.home-content {
+    padding-top: 80px;
+}
+
+/* =====================
+   DARK MODE SUPPORT
+===================== */
+
+body.dark .home-topbar {
+    background: #1f2933;
+}
+
+body.dark .home-topbar .welcome {
+    color: #e5e7eb;
+}
+
+body.dark .home-topbar .actions a {
+    background: #374151;
+    color: #e5e7eb;
+}
+.section {
+    margin-bottom: 30px;
+}
+.alert.success {
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+.empty-state {
+    text-align: center;
+    padding: 40px 0;
+    color: #777;
+    font-size: 14px;
+}
+.profile-img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #4CAF50;
+    margin-bottom: 15px;
+}
+/* Update Photo button – Blue */
+.profile-card .btn.primary {
+    background: #2563eb;          /* Blue */
+    color: #ffffff;
+}
+
+.profile-card .btn.primary:hover {
+    background: #1d4ed8;          /* Darker blue */
+}
+.download-btn {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.download-btn:hover {
+    opacity: 0.9;
+}
+/* ================== CALENDAR VIEW ================== */
+
+/* Calendar container */
+.calendar-container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 20px 25px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 18px;
+    box-shadow: 0 14px 35px rgba(0,0,0,0.15);
+}
+
+/* Toolbar */
+.fc-toolbar {
+    margin-bottom: 18px !important;
+}
+
+.fc-toolbar-title {
+    font-size: 22px !important;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+/* Buttons */
+.fc-button {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 6px 14px !important;
+    font-size: 13px !important;
+    font-weight: 600;
+    color: #fff !important;
+}
+
+.fc-button:hover {
+    opacity: 0.9;
+}
+
+.fc-button-active {
+    background: #1e40af !important;
+}
+
+/* Day grid */
+.fc-daygrid-day {
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.fc-daygrid-day:hover {
+    background: #f1f5ff;
+}
+
+/* Today highlight */
+.fc-day-today {
+    background: #e0ecff !important;
+    border-radius: 10px;
+}
+
+/* Events (tasks) */
+.fc-event {
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 4px 6px !important;
+    font-size: 12px !important;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Status colors */
+.fc-event.pending {
+    background: #f59e0b !important;
+    color: #fff !important;
+}
+
+.fc-event.in_progress {
+    background: #3b82f6 !important;
+    color: #fff !important;
+}
+
+.fc-event.done {
+    background: #22c55e !important;
+    color: #fff !important;
+}
+
+/* Dark mode */
+body.dark .calendar-container {
+    background: rgba(30,30,30,0.95);
+}
+
+body.dark .fc-toolbar-title {
+    color: #e5e7eb;
+}
+
+body.dark .fc-daygrid-day {
+    background: #111827;
+}
+
+body.dark .fc-daygrid-day:hover {
+    background: #1f2933;
+}
+
+body.dark .fc-day-today {
+    background: #1e3a8a !important;
+}

@@ -1,5 +1,6 @@
 package com.task.taskreminder.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +16,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     List<Task> findByUser(User user);
     Page<Task> findByUser(User user, Pageable pageable);
+    List<Task> findByDateBetween(LocalDate today, LocalDate tomorrow);
 
 
 }

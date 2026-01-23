@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/dashboard.css">
+</head>
+<body>
+    <h2>Welcome, <span th:text="${user.name}"></span></h2>
+
+
+<!-- TOP BAR -->
+<div class="dash-topbar">
+    <span>Dashboard</span>
+    <a href="/home">Back to Home</a>
+</div>
+
+<div class="dash-container">
+
+    <h2>Dashboard Overview</h2>
+
+    <div class="dash-grid">
+
+        <div class="dash-card neutral">
+            <p>Total Tasks</p>
+            <h3 th:text="${totalTasks ?: 0}">0</h3>
+        </div>
+
+        <div class="dash-card success">
+            <p>Completed</p>
+           <h3 th:text="${completedTasks ?: 0}">0</h3>
+        </div>
+
+        <div class="dash-card warning">
+            <p>Pending</p>
+            <h3 th:text="${pendingTasks ?: 0}">0</h3>
+
+        </div>
+
+        <div class="dash-card info">
+            <p>In Progress</p>
+            <h3 th:text="${inProgressTasks ?: 0}">0</h3>
+        </div>
+
+        <div class="dash-card danger">
+            <p>Overdue</p>
+            <h3 th:text="${overdueTasks ?: 0}">0</h3>
+        </div>
+
+        <div class="dash-card highlight">
+            <p>High Priority</p>
+            <h3 th:text="${highPriority ?: 0}">0</h3>
+        </div>
+
+        <div class="dash-card special">
+            <p>Due Today</p>
+            <h3 th:text="${dueTodayTasks ?: 0}">0</h3>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
