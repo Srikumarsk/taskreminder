@@ -44,11 +44,7 @@ public class TaskController {
     }
   @Autowired
 private EmailService emailService;
-  private User user;
-
-
-
-@GetMapping("/home")
+  @GetMapping("/home")
 public String home(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "5") int size,
