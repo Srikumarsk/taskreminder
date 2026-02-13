@@ -75,7 +75,7 @@ public String usersPage(Model model) {
 }
 
 public @Nullable Object getAllUsers() {
-    // TODO Auto-generated method stub
+    
     throw new UnsupportedOperationException("Unimplemented method 'getAllUsers'");
 }
 
