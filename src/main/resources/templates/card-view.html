@@ -26,6 +26,8 @@
     #<span th:text="${t.serialNo}">1</span>
 </span>
 
+
+
             </div>
 
             <p class="desc" th:text="${t.description}">Description</p>
@@ -36,6 +38,18 @@
                    th:text="${t.status}"
                       th:classappend="'status ' + ${t.status.toLowerCase()}"></a>
             </div>
+            <!-- ✅ Completed At -->
+<p class="card-completed">
+    <b>Completed At:</b>
+
+    <span th:if="${t.completedAt != null}"
+          th:text="${#temporals.format(t.completedAt,'dd-MM-yyyy')}">
+    </span>
+
+    <span th:if="${t.completedAt == null}">
+        -
+    </span>
+</p>
 
             <div class="card-actions">
                 <a th:href="@{'/view/' + ${t.id}}" class="btn view">View</a>

@@ -44,6 +44,18 @@
             <strong th:text="${task.serialNo}">1</strong>
 
         </div>
+        <div class="view-item">
+    <span>Completed At</span>
+
+    <strong th:if="${task.completedAt != null}"
+            th:text="${#temporals.format(task.completedAt,'dd MMM yyyy, HH:MM')}">Completion Date</strong>
+    </strong>
+
+    <strong th:if="${task.completedAt == null}">
+        Not Completed Yet
+    </strong>
+</div>
+
     </div>
 
     <div class="view-actions">

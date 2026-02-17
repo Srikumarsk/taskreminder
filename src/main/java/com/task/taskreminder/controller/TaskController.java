@@ -1,6 +1,6 @@
 package com.task.taskreminder.controller;
 import java.io.IOException;
-
+import java.time.LocalDateTime;
 
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -204,9 +204,17 @@ public String addTask(@ModelAttribute Task task, HttpSession session) {
     User loggedUser = (User) session.getAttribute("loggedUser");
 
     task.setUser(loggedUser);   // 🔥 STEP 3 (IMPORTANT)
-
+     if (task.getReminderInterval() == null) {
+        task.setReminderInterval(60);
+    }
+ 
     repository.save(task);
      emailService.sendTaskCreatedMail(loggedUser.getEmail(), task);
+     emailService.sendMail(
+        loggedUser.getEmail(),
+        "New Task Added",
+        "Task: " + task.getTitle() + " added successfully!"
+    );
 
     return "redirect:/home";
 }
@@ -229,20 +237,32 @@ public String deleteTask(@PathVariable Long id) {
 
 @GetMapping("/toggle/{id}")
 public String toggleStatus(@PathVariable Long id) {
+
     Task task = repository.findById(id).orElse(null);
 
     if (task != null) {
+
         if ("DONE".equalsIgnoreCase(task.getStatus())) {
+
             task.setStatus("PENDING");
+            task.setCompletedAt(null);
+
+            // ✅ Reset reminder again
+            task.setReminderSent(false);
+
         } else {
+
             task.setStatus("DONE");
-            repository.save(task);
-            return "redirect:/home?done=true"; // 👈 important
+
+            task.setCompletedAt(LocalDateTime.now());
         }
+
         repository.save(task);
     }
+
     return "redirect:/home";
 }
+
 
 
 
@@ -293,9 +313,28 @@ public String calendarView() {
 public String updateTask(@ModelAttribute Task task, HttpSession session) {
 
     User loggedUser = (User) session.getAttribute("loggedUser");
-    task.setUser(loggedUser);   //    keep ownership
+
+    if (loggedUser == null) {
+        return "redirect:/login";
+    }
+
+    task.setUser(loggedUser);
+
+    // ✅ Set completedAt automatically
+    if ("DONE".equalsIgnoreCase(task.getStatus())) {
+
+        // Only set if it was not already set
+        if (task.getCompletedAt() == null) {
+            task.setCompletedAt(LocalDateTime.now());
+        }
+
+    } else {
+        // If status not DONE → remove completedAt
+        task.setCompletedAt(null);
+    }
 
     repository.save(task);
+
     return "redirect:/home";
 }
 @GetMapping("/tasks/download")
@@ -353,9 +392,6 @@ public void downloadTasksExcel(
     workbook.write(response.getOutputStream());
     workbook.close();
 }
-
-
-
 
 
 }

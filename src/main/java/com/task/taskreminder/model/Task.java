@@ -2,6 +2,7 @@ package com.task.taskreminder.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Task {
@@ -14,6 +15,17 @@ public class Task {
     private String priority;
     private String status;
     private LocalDate date;
+    private LocalDateTime completedAt;
+
+    
+    
+
+    @Column(nullable = false)
+private boolean reminderSent = false;
+private Integer reminderInterval =60;
+
+
+
     @ManyToOne
 @JoinColumn(name = "user_id")
 private User user;
@@ -56,4 +68,25 @@ public void setUser(User user) {
     this.user = user;
 }
 
+public Integer getReminderInterval() {
+    return reminderInterval;
+}
+
+public void setReminderInterval(Integer reminderInterval) {
+    this.reminderInterval = reminderInterval;
+}
+
+
+public LocalDateTime getCompletedAt() {
+    return completedAt;
+}
+
+public void setCompletedAt(LocalDateTime completedAt) {
+    this.completedAt = completedAt;
+}
+
+public void setReminderSent(boolean b) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'setReminderSent'");
+}
 }

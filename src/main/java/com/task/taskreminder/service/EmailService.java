@@ -60,7 +60,7 @@ public class EmailService {
     }
 
     // ---------------- COMMON METHOD ----------------
-    private void sendMail(String to, String subject, String body) {
+    public void sendMail(String to, String subject, String body) {
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("sreekumarmuppidi@gmail.com"));

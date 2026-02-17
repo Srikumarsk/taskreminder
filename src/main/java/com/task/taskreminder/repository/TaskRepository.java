@@ -17,6 +17,8 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findByUser(User user);
     Page<Task> findByUser(User user, Pageable pageable);
     List<Task> findByDateBetween(LocalDate today, LocalDate tomorrow);
+    List<Task> findByStatusNotAndDateLessThanEqual(String status, LocalDate date);
+
 
 
 }

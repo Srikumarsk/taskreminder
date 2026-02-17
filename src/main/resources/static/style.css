@@ -1121,3 +1121,26 @@ body.dark .fc-daygrid-day:hover {
 body.dark .fc-day-today {
     background: #1e3a8a !important;
 }
+.card-completed {
+    font-size: 13px;
+    margin-top: 8px;
+    color: #444;
+}
+
+body.dark .card-completed {
+    color: #ddd;
+}
+
+.quote-popup {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #4CAF50;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    z-index: 9999;
+}

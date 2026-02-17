@@ -92,6 +92,13 @@
 <a href="/tasks/download" class="btn download-btn">
     ⬇ Download Excel
 </a>
+<select name="reminderInterval">
+    <option value="30">Every 30 Minutes</option>
+    <option value="60">Every 1 Hour</option>
+    <option value="180">Every 3 Hours</option>
+    <option value="1440">Daily</option>
+</select>
+
 
     <table>
     <tr>
@@ -101,37 +108,70 @@
         <th>Due Date</th>
         <th>Priority</th>
         <th>Status</th>
+        <th>Completed At</th>
+
         <th>Actions</th>
     </tr>
 
-    <tr th:each="t, stat : ${tasks}">
-        
-         <td th:text="${stat.count}"></td>
-        <td th:text="${t.title}"></td>
-        <td th:text="${t.description}"></td>
-        <td th:text="${t.date}"></td>
-        <td>
-            <span th:text="${t.priority}"
-                  th:classappend="'priority ' + ${t.priority.toLowerCase()}"></span>
-        </td>
-         <td> 
-             <a
-                th:href="@{'/toggle/' + ${t.id}}" 
-               th:text="${t.status}"
-               th:classappend="'status ' + ${t.status.toLowerCase()}"></a>
-        </td>
-       
-        <td>
-             <a th:href="@{'/view/' + ${t.id}}" class="btn view">View</a>
-            <a th:href="@{'/edit/' + ${t.id}}" class="btn edit">Edit</a>
-            <a th:href="@{'/delete/' + ${t.id}}"
-               class="btn del">Delete</a>
-        </td>
-    </tr>
+   <tr th:each="t, stat : ${tasks}">
+
+    <!-- 1. ID -->
+    <td th:text="${stat.count}"></td>
+
+    <!-- 2. Task -->
+    <td th:text="${t.title}"></td>
+
+    <!-- 3. Description -->
+    <td th:text="${t.description}"></td>
+
+    <!-- 4. Due Date -->
+    <td th:text="${t.date}"></td>
+
+    <!-- 5. Priority -->
+    <td>
+        <span th:text="${t.priority}"
+              th:class="'priority ' + ${t.priority.toLowerCase()}">
+        </span>
+    </td>
+
+    <!-- 6. Status -->
+    <td>
+        <span th:text="${t.status}"
+              th:class="'status ' + ${t.status.toLowerCase()}">
+        </span>
+    </td>
+
+    <!-- 7. Completed At -->
+    <td>
+        <span th:if="${t.completedAt != null}"
+              th:text="${#temporals.format(t.completedAt,'dd-MM-yyyy HH:MM')}">
+        </span>
+
+        <span th:if="${t.completedAt == null}">-</span>
+    </td>
+
+    <!-- 8. Actions -->
+    <td>
+        <a th:href="@{/view/{id}(id=${t.id})}" class="btn view">View</a>
+        <a th:href="@{/edit/{id}(id=${t.id})}" class="btn edit">Edit</a>
+        <a th:href="@{/delete/{id}(id=${t.id})}" class="btn del">Delete</a>
+    </td>
+
+</tr>
       <div th:if="${tasks.isEmpty()}" class="empty-state">
     <p>No tasks yet.</p>
     <span>Add your first task Below</span>
 </div>
+
+<!-- ✅ Task Completed Quote Popup -->
+<div th:if="${param.done}">
+    <script>
+        window.onload = function() {
+            playNotification();
+        };
+    </script>
+</div>
+
 
   
 
@@ -200,6 +240,16 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 <script th:src="@{/theme.js}"></script>
+
+<audio id="notifySound">
+  <source src="/sounds/notify.mp3" type="audio/mpeg">
+</audio>
+<script>
+function showReminder() {
+    alert("⏰ Task Due Soon!");
+    document.getElementById("notifySound").play();
+}
+</script>
 
 
 
