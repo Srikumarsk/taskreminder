@@ -15,6 +15,9 @@ public class EmailService {
 
     private Session session;
 
+    private final String FROM_EMAIL = "sreekumarmuppidi@gmail.com";
+    private final String APP_PASSWORD = "ddkjoykjngdfqkdb"; // ⚠️ Use App Password only
+
     @PostConstruct
     public void init() {
 
@@ -26,51 +29,68 @@ public class EmailService {
 
         session = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(
-                    "sreekumarmuppidi@gmail.com",
-                    "ddkjoykjngdfqkdb"
-                );
+                return new PasswordAuthentication(FROM_EMAIL, APP_PASSWORD);
             }
         });
+
+        System.out.println("✅ Email Session Initialized");
     }
 
     // ---------------- OTP ----------------
     public void sendOTP(String toEmail, String otp) {
-        sendMail(toEmail, "Email Verification",
-                "Your OTP is: " + otp);
+        sendMail(
+                toEmail,
+                "Email Verification - TaskReminder",
+                "Your OTP is: " + otp
+        );
     }
 
     // ---------------- TASK CREATED ----------------
     public void sendTaskCreatedMail(String toEmail, Task task) {
         sendMail(
-            toEmail,
-            "New Task Added",
-            "Task: " + task.getTitle() +
-            "\nDue: " + task.getDate()
+                toEmail,
+                "New Task Added",
+                "Task: " + task.getTitle() +
+                "\nDue Date: " + task.getDate() +
+                "\nStatus: " + task.getStatus()
         );
     }
 
     // ---------------- REMINDER ----------------
     public void sendTaskReminder(String toEmail, Task task) {
         sendMail(
-            toEmail,
-            "Task Reminder",
-            "Your task is due soon:\n" + task.getTitle()
+                toEmail,
+                "⏰ Task Reminder",
+                "Reminder for your task:\n\n" +
+                "Title: " + task.getTitle() +
+                "\nDue Date: " + task.getDate() +
+                "\nStatus: " + task.getStatus()
         );
     }
 
-    // ---------------- COMMON METHOD ----------------
+    // ---------------- COMMON MAIL METHOD ----------------
     public void sendMail(String to, String subject, String body) {
         try {
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("sreekumarmuppidi@gmail.com"));
-            message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(to));
+
+            message.setFrom(new InternetAddress(FROM_EMAIL));
+            message.setRecipients(
+                    Message.RecipientType.TO,
+                    InternetAddress.parse(to)
+            );
+
             message.setSubject(subject);
             message.setText(body);
+
             Transport.send(message);
+
+            System.out.println("📩 Email sent successfully to: " + to);
+
         } catch (Exception e) {
+            System.out.println("❌ Email sending failed");
             e.printStackTrace();
         }
     }
+
+    
 }

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Task Reminder App</title>
+    <link rel="stylesheet" th:href="@{/landing.css}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <h2 class="logo">TaskReminder</h2>
+        <div class="nav-buttons">
+            <a href="/login" class="btn login-btn">Login</a>
+            <a href="/register" class="btn register-btn">Register</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Manage Your Tasks Smarter 🚀</h1>
+        <p>
+            Task Reminder Application helps students and professionals organize tasks,
+            track deadlines, and receive automated reminders.
+        </p>
+
+        <a href="/register" class="btn start-btn">Get Started</a>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2>Key Features</h2>
+
+        <div class="feature-box">
+            <h3>✅ User Specific Task Access</h3>
+            <p>Each user can securely manage their own tasks.</p>
+        </div>
+
+        <div class="feature-box">
+            <h3>📌 Priority & Status Tracking</h3>
+            <p>Organize tasks by High, Medium, Low priority and track progress.</p>
+        </div>
+
+        <div class="feature-box">
+            <h3>📅 Multiple Views</h3>
+            <p>Table View, Card View, and Calendar View for better clarity.</p>
+        </div>
+
+        <div class="feature-box">
+            <h3>🔔 Automated Email Reminders</h3>
+            <p>Get reminder mails when deadlines are near.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Task Reminder Application | Built with Spring Boot</p>
+    </footer>
+
+</body>
+</html>

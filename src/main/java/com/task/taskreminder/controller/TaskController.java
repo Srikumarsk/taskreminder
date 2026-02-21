@@ -27,7 +27,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.ListCrudRepository;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -67,14 +67,19 @@ Pageable pageable = PageRequest.of(page, size, prioritySort);
 
     List<Task> tasks = taskPage.getContent();
     tasks = tasks.stream()
-        .sorted((t1, t2) -> {
-            List<String> order = List.of("HIGH", "MEDIUM", "LOW");
-            return Integer.compare(
-                    order.indexOf(t1.getPriority()),
-                    order.indexOf(t2.getPriority())
-            );
-        })
-        .toList();
+    .sorted((t1, t2) -> {
+
+        List<String> order = List.of("HIGH", "MEDIUM", "LOW");
+
+        String p1 = (t1.getPriority() == null) ? "LOW" : t1.getPriority();
+        String p2 = (t2.getPriority() == null) ? "LOW" : t2.getPriority();
+
+        return Integer.compare(
+                order.indexOf(p1),
+                order.indexOf(p2)
+        );
+    })
+    .toList();
 
 
     // Apply filters on current page (simple approach)
@@ -180,14 +185,19 @@ public String cardView(Model model, HttpSession session) {
 
     //  Priority order: HIGH → MEDIUM → LOW
     tasks = tasks.stream()
-            .sorted((t1, t2) -> {
-                List<String> order = List.of("HIGH", "MEDIUM", "LOW");
-                return Integer.compare(
-                        order.indexOf(t1.getPriority()),
-                        order.indexOf(t2.getPriority())
-                );
-            })
-            .toList();
+    .sorted((t1, t2) -> {
+
+        List<String> order = List.of("HIGH", "MEDIUM", "LOW");
+
+        String p1 = (t1.getPriority() == null) ? "LOW" : t1.getPriority();
+        String p2 = (t2.getPriority() == null) ? "LOW" : t2.getPriority();
+
+        return Integer.compare(
+                order.indexOf(p1),
+                order.indexOf(p2)
+        );
+    })
+    .toList();
             
     int serialNo = 1;
     for (Task t : tasks) {

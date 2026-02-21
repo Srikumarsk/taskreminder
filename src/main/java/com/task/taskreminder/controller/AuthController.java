@@ -36,13 +36,7 @@ public String usersPage(Model model) {
 }
 
   // ROOT → LOGIN
-    @GetMapping("/")
-    public String root(HttpSession session) {
-        if (session.getAttribute("loggedUser") != null) {
-            return "redirect:/home";
-        }
-        return "redirect:/login";
-    }
+    
 
 
     // REGISTER PAGE
@@ -129,6 +123,10 @@ public String deleteUser(@PathVariable Long id) {
     return "redirect:/users";
 }
 
+@GetMapping("/")
+public String landingPage() {
+    return "landing";
+}
 
 
 

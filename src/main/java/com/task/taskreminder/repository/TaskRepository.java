@@ -9,7 +9,7 @@ import com.task.taskreminder.model.Task;
 import com.task.taskreminder.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import com.task.taskreminder.model.User;
+
 
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
@@ -18,6 +18,8 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     Page<Task> findByUser(User user, Pageable pageable);
     List<Task> findByDateBetween(LocalDate today, LocalDate tomorrow);
     List<Task> findByStatusNotAndDateLessThanEqual(String status, LocalDate date);
+
+    List<Task> findByStatus(String status);
 
 
 

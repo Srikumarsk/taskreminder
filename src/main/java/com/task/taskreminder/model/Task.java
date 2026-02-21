@@ -22,7 +22,8 @@ public class Task {
 
     @Column(nullable = false)
 private boolean reminderSent = false;
-private Integer reminderInterval =60;
+private Integer reminderInterval;
+private LocalDateTime lastReminderTime;
 
 
 
@@ -58,6 +59,14 @@ public void setSerialNo(int serialNo) {
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 
+    public boolean isReminderSent() {
+    return reminderSent;
+}
+
+public void setReminderSent(boolean reminderSent) {
+    this.reminderSent = reminderSent;
+}
+
     public LocalDate getDate() { return date; }
     public void setDate(LocalDate date) { this.date = date; }
     public User getUser() {
@@ -75,7 +84,12 @@ public Integer getReminderInterval() {
 public void setReminderInterval(Integer reminderInterval) {
     this.reminderInterval = reminderInterval;
 }
-
+public LocalDateTime getLastReminderTime() {
+    return lastReminderTime;
+}
+public void setLastReminderTime(LocalDateTime lastReminderTime) {
+    this.lastReminderTime = lastReminderTime;
+}
 
 public LocalDateTime getCompletedAt() {
     return completedAt;
@@ -84,9 +98,12 @@ public LocalDateTime getCompletedAt() {
 public void setCompletedAt(LocalDateTime completedAt) {
     this.completedAt = completedAt;
 }
-
-public void setReminderSent(boolean b) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'setReminderSent'");
+public LocalDateTime getLastReminderSentAt() {
+    return lastReminderTime;
 }
+public void setLastReminderSentAt(LocalDateTime lastReminderSentAt) {
+    this.lastReminderTime = lastReminderSentAt;
+}
+
+
 }
